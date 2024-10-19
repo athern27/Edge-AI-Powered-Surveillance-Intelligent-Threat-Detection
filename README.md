@@ -1,1 +1,3 @@
 # Edge-AI-Powered-Surveillance-Intelligent-Threat-Detection
+Our project draws inspiration from regular terrorist/criminal activities observed all across the world. A large part of defence systems are based utilizing sensed data from cameras, radar modules, and other sensing devices. The data retrieved from these sensors is then processed using modern day computer vision and machine learning techniques. However, these computation-intensive tasks are typically performed on high-end computers or processors, which can result in delayed responses during critical situations.
+We believe that AI and Edge-computing operations on microcontrollers itself present as a viable solution to this widely encountered issue worldwide.
