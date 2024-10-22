@@ -50,6 +50,7 @@ def sendLora(lora, threat, weapon):
 WIFI_SSID   = "LAPTOP"
 WIFI_PASSWD = "12345678910"
 addr        = ("172.22.103.24", 3456)
+ADDR = ("172.22.103.24", 60003)
 import socket
 clock = time.clock()
 lcd.init()
@@ -107,6 +108,22 @@ def init_uart():
     uart = UART(UART.UART1, 115200, 8, 0, 0, timeout=1000, read_buf_len=256)
     return uart
 
+def send_payload_over_socket(threat,weapon):
+    sock1 = socket.socket()
+    sock1.connect(ADDR)
+    payload_list = ['{}'.format(NodeID),
+           '{}'.format(threat),
+           '{}'.format(weapon),
+           '{}'.format(location)]
+    sock1.settimeout(1)
+    for data in payload_list:
+        data_with_newline = data + '\n'
+        # Send the data as bytes
+        sock1.send(data_with_newline.encode('utf-8'))
+        print("Sent: {data}")  # Print the data being sent
+        #time.sleep(1)
+    sock1.close()
+
 def send_image_over_socket(img, clock):
     while True:
         try:
@@ -156,13 +173,13 @@ def send_image_over_socket(img, clock):
 
 def main(anchors, labels = None, model_addr="/sd/m.kmodel", sensor_window=input_size, lcd_rotation=0, sensor_hmirror=False, sensor_vflip=True):
     print("starting")
-    fm.register(LORA_CS, fm.fpioa.GPIOHS0, force=True) # CS
-    cs = GPIO(GPIO.GPIOHS0, GPIO.OUT)
-    spi1 = SPI(LORA_SPI_NUM, mode=SPI.MODE_MASTER, baudrate=LORA_SPI_FREQ_KHZ * 1000,
-               polarity=0, phase=0, bits=8, firstbit=SPI.MSB, sck=LORA_SPI_SCK, mosi=LORA_SPI_MOSI, miso = LORA_SPI_MISO)
-    lora = SX127x(spi=spi1, pin_ss=cs)
-    time.sleep_ms(100)
-    lora.init()
+    #fm.register(LORA_CS, fm.fpioa.GPIOHS0, force=True) # CS
+    #cs = GPIO(GPIO.GPIOHS0, GPIO.OUT)
+    #spi1 = SPI(LORA_SPI_NUM, mode=SPI.MODE_MASTER, baudrate=LORA_SPI_FREQ_KHZ * 1000,
+               #polarity=0, phase=0, bits=8, firstbit=SPI.MSB, sck=LORA_SPI_SCK, mosi=LORA_SPI_MOSI, miso = LORA_SPI_MISO)
+    #lora = SX127x(spi=spi1, pin_ss=cs)
+    #time.sleep_ms(100)
+    #lora.init()
     sensor.reset()
     sensor.set_pixformat(sensor.RGB565)
     sensor.set_framesize(sensor.QVGA)
@@ -217,7 +234,8 @@ def main(anchors, labels = None, model_addr="/sd/m.kmodel", sensor_window=input_
                     kpu.deinit(task)
                     img1=img
                     send_image_over_socket(img1, clock)
-                    sendLora(lora, labels[obj.classid()], obj.value())
+                    send_payload_over_socket(labels[obj.classid()],obj.value())
+                    #sendLora(lora, labels[obj.classid()], obj.value())
                     print("cycle complete")
                     a=1;
                 comm.send_detect_result(objects, labels)
