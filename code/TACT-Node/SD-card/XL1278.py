@@ -64,16 +64,7 @@ MAX_PKT_LENGTH = 255
 
 
 class SX127x:
-
-    # The controller can be ESP8266, ESP32, Raspberry Pi, or a PC.
-    # The controller needs to provide an interface consisted of:
-    # 1. a SPI, with transfer function.
-    # 2. a reset pin, with low(), high() functions.
-    # 3. IRQ pinS , to be triggered by RFM96W's DIO0~5 pins. These pins each has two functions:
-    #   3.1 set_handler_for_irq_on_rising_edge()
-    #   3.2 detach_irq()
-    # 4. a function to blink on-board LED.
-
+    
     def __init__(self,
                  spi,
                  pin_ss,
@@ -280,18 +271,6 @@ class SX127x:
     def setSyncWord(self, sw):
         self.writeRegister(REG_SYNC_WORD, sw)
 
-
-    # def enable_Rx_Done_IRQ(self, enable = True):
-    #     if enable:
-    #         self.writeRegister(REG_IRQ_FLAGS_MASK, self.readRegister(REG_IRQ_FLAGS_MASK) & ~IRQ_RX_DONE_MASK)
-    #     else:
-    #         self.writeRegister(REG_IRQ_FLAGS_MASK, self.readRegister(REG_IRQ_FLAGS_MASK) | IRQ_RX_DONE_MASK)
-    #
-    #
-    # def dumpRegisters(self):
-    #     for i in range(128):
-    #         print("0x{0:02x}: {1:02x}".format(i, self.readRegister(i)))
-
     def implicitHeaderMode(self, implicitHeaderMode = False):
         if self._implicitHeaderMode != implicitHeaderMode:  # set value only if different.
             self._implicitHeaderMode = implicitHeaderMode
@@ -320,11 +299,6 @@ class SX127x:
         # no need to reset FIFO_ADDR_PTR
         self.writeRegister(REG_OP_MODE, MODE_LONG_RANGE_MODE | MODE_RX_CONTINUOUS)
 
-
-    # on RPi, interrupt callback is threaded and racing with main thread,
-    # Needs a lock for accessing FIFO.
-    # https://sourceforge.net/p/raspberry-gpio-python/wiki/Inputs/
-    # http://raspi.tv/2013/how-to-use-interrupts-with-python-on-the-raspberry-pi-and-rpi-gpio-part-2
     def handleOnReceive(self, event_source):
         self.aquire_lock(True)  # lock until TX_Done
 
@@ -344,10 +318,6 @@ class SX127x:
         self.implicitHeaderMode(size > 0)
         if size > 0:
             self.writeRegister(REG_PAYLOAD_LENGTH, size & 0xff)
-
-        # if (irqFlags & IRQ_RX_DONE_MASK) and \
-        #         (irqFlags & IRQ_RX_TIME_OUT_MASK == 0) and \
-        #         (irqFlags & IRQ_PAYLOAD_CRC_ERROR_MASK == 0):
 
         if (irqFlags == IRQ_RX_DONE_MASK):  # RX_DONE only, irqFlags should be 0x40
             # automatically standby when RX_DONE
