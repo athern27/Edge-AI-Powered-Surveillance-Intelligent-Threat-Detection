@@ -1,0 +1,153 @@
+[
+    {
+        "id": "3ad563c260c3fdf9",
+        "type": "tab",
+        "label": "Get Image from Maixduino",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "0cf40a075e2864b7",
+        "type": "inject",
+        "z": "3ad563c260c3fdf9",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 330,
+        "y": 180,
+        "wires": [
+            [
+                "d9afbc7467b9d61e",
+                "c7c3c35c9490dfce"
+            ]
+        ]
+    },
+    {
+        "id": "343f05b4e7669154",
+        "type": "file",
+        "z": "3ad563c260c3fdf9",
+        "name": "",
+        "filename": "./server.py",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 690,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d9afbc7467b9d61e",
+        "type": "template",
+        "z": "3ad563c260c3fdf9",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "python",
+        "syntax": "mustache",
+        "template": "import socket\nimport threading\nimport os\nimport datetime\nimport sys\nimport json\n\nlocal_ip = \"\"\nlocal_port = 3456\n# Create a folder named \"Images\" if it doesn't exist\nif not os.path.exists(\"Images\"):\n    os.makedirs(\"Images\")\n\ndef receiveThread(conn):\n    conn.settimeout(10)\n    conn_end = False\n    pack_size = 1024 * 128\n    while True:\n        if conn_end:\n            break\n        img = b\"\"\n        tmp = b''\n        while True:\n            try:\n                client_data = conn.recv(1)\n            except socket.timeout:\n                conn_end = True\n                break\n            if tmp == b'\\xFF' and client_data == b'\\xD8':\n                img = b'\\xFF\\xD8'\n                print(\"break here\")\n                break\n            tmp = client_data\n        while True:\n            try:\n                client_data = conn.recv(131072)\n            except socket.timeout:\n                client_data = None\n                conn_end = True\n            if not client_data:\n                break\n            print(\"received data, len:\", len(client_data))\n            img += client_data\n            if img[-2:] == b'\\xFF\\xD9':\n                break\n            if len(client_data) > pack_size:\n                break\n        print(\"receive end, pic len:\", len(img))\n        if not img.startswith(b'\\xFF\\xD8') or not img.endswith(b'\\xFF\\xD9'):\n            print(\"image error\")\n            continue\n        \n        timestamp = datetime.datetime.now().strftime(\"%Y%m%d_%H%M%S\")\n        image_filename = f\"C:\\\\Users\\\\karti\\\\Desktop\\\\Circuit-digest\\\\Images\\\\image_{timestamp}.jpg\"\n        \n        with open(image_filename, \"wb\") as f:\n            f.write(img)\n        \n        print(f\"Image saved successfully as {image_filename}.\")\n    conn.close()\n    print(\"receive thread end\")\n\n\nip_port = (local_ip, local_port)\nsk = socket.socket()\nsk.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)\nsk.bind(ip_port)\nsk.listen(50)\nprint(\"accept now, wait for client\")\n\n\ndef server():\n    while True:\n        conn, addr = sk.accept()\n        print(\"hello client, ip:\", addr)\n        print(\"Hello\")\n        # Create a CSV file and write the header if it doesn't exist\n        t = threading.Thread(target=receiveThread, args=(conn,))\n        t.setDaemon(True)\n        t.start()\n\n\ntmp = threading.Thread(target=server, args=())\ntmp.setDaemon(True)\ntmp.start()\n\nwhile True:\n    pass  # Keep the server running\n",
+        "output": "str",
+        "x": 520,
+        "y": 180,
+        "wires": [
+            [
+                "343f05b4e7669154"
+            ]
+        ]
+    },
+    {
+        "id": "c7c3c35c9490dfce",
+        "type": "exec",
+        "z": "3ad563c260c3fdf9",
+        "command": "python -u ./server.py",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 440,
+        "y": 320,
+        "wires": [
+            [
+                "e7e44324222883d3"
+            ],
+            [
+                "3f68f17b2f697e72"
+            ],
+            [
+                "ee4f80747d515f6e"
+            ]
+        ]
+    },
+    {
+        "id": "3f68f17b2f697e72",
+        "type": "debug",
+        "z": "3ad563c260c3fdf9",
+        "name": "Error",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 650,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "ee4f80747d515f6e",
+        "type": "debug",
+        "z": "3ad563c260c3fdf9",
+        "name": "Return code",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 670,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "e7e44324222883d3",
+        "type": "debug",
+        "z": "3ad563c260c3fdf9",
+        "name": "Output Main Script",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 690,
+        "y": 280,
+        "wires": []
+    }
+]
