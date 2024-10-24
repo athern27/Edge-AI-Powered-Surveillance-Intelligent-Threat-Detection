@@ -1,0 +1,392 @@
+[
+    {
+        "id": "c040b3e1960bc41d",
+        "type": "tab",
+        "label": "Get Details from Maixduino",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "d5e2833df77be233",
+        "type": "ui_text",
+        "z": "c040b3e1960bc41d",
+        "group": "97727a6590d6ccd6",
+        "order": 2,
+        "width": 9,
+        "height": 2,
+        "name": "Threat Level",
+        "label": "Threat Level",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": true,
+        "font": "Verdana,Verdana,Geneva,sans-serif",
+        "fontSize": "20",
+        "color": "#e7463d",
+        "x": 570,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "9a4b335ac6b08bea",
+        "type": "ui_text",
+        "z": "c040b3e1960bc41d",
+        "group": "97727a6590d6ccd6",
+        "order": 1,
+        "width": 9,
+        "height": 2,
+        "name": "Node ID",
+        "label": "Node ID",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": true,
+        "font": "Verdana,Verdana,Geneva,sans-serif",
+        "fontSize": "20",
+        "color": "#e7463d",
+        "x": 560,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "d8ed26bbc925a238",
+        "type": "ui_text",
+        "z": "c040b3e1960bc41d",
+        "group": "97727a6590d6ccd6",
+        "order": 4,
+        "width": 9,
+        "height": 2,
+        "name": "Location",
+        "label": "Location",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": true,
+        "font": "Verdana,Verdana,Geneva,sans-serif",
+        "fontSize": "20",
+        "color": "#e7463d",
+        "x": 580,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "ebdeef5798b5106e",
+        "type": "ui_text",
+        "z": "c040b3e1960bc41d",
+        "group": "97727a6590d6ccd6",
+        "order": 3,
+        "width": 9,
+        "height": 2,
+        "name": "Weapon",
+        "label": "Weapon",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": true,
+        "font": "Verdana,Verdana,Geneva,sans-serif",
+        "fontSize": "20",
+        "color": "#e7463d",
+        "x": 560,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "8e2806a829abb34a",
+        "type": "inject",
+        "z": "c040b3e1960bc41d",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 480,
+        "wires": [
+            [
+                "25b6e0c17817f2d2",
+                "2d466c794aedd48d",
+                "8b89bee11fa95287",
+                "de255246e0cb9e21"
+            ]
+        ]
+    },
+    {
+        "id": "25b6e0c17817f2d2",
+        "type": "function",
+        "z": "c040b3e1960bc41d",
+        "name": "getThreatLevel",
+        "func": "let var1 = flow.get(\"threatLevel\");\nmsg.payload=var1;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 660,
+        "wires": [
+            [
+                "d5e2833df77be233"
+            ]
+        ]
+    },
+    {
+        "id": "8b89bee11fa95287",
+        "type": "function",
+        "z": "c040b3e1960bc41d",
+        "name": "getLatitude",
+        "func": "let var1 = flow.get(\"Location\");\nmsg.payload=var1;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 600,
+        "wires": [
+            [
+                "d8ed26bbc925a238"
+            ]
+        ]
+    },
+    {
+        "id": "de255246e0cb9e21",
+        "type": "function",
+        "z": "c040b3e1960bc41d",
+        "name": "getWeapon",
+        "func": "let var1 = flow.get(\"Weapon\");\nmsg.payload=var1;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 540,
+        "wires": [
+            [
+                "ebdeef5798b5106e"
+            ]
+        ]
+    },
+    {
+        "id": "2d466c794aedd48d",
+        "type": "function",
+        "z": "c040b3e1960bc41d",
+        "name": "getNodeID",
+        "func": "let var1 = flow.get(\"NodeID\");\nmsg.payload=var1;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 480,
+        "wires": [
+            [
+                "9a4b335ac6b08bea"
+            ]
+        ]
+    },
+    {
+        "id": "c73da64d3804396f",
+        "type": "function",
+        "z": "c040b3e1960bc41d",
+        "name": "Global variables declare",
+        "func": "flow.set(\"Location\", \"NA\");\nflow.set(\"threatLevel\", \"NA\");\nflow.set(\"NodeID\", \"NA\");\nflow.set(\"Weapon\", \"NA\");\nflow.set(\"increment\",1);\nflow.set(\"PreviousThreat\",\"NA\");\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e1a7e369a5ba0a0e",
+        "type": "inject",
+        "z": "c040b3e1960bc41d",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 280,
+        "wires": [
+            [
+                "c73da64d3804396f"
+            ]
+        ]
+    },
+    {
+        "id": "bb9d330bf3883135",
+        "type": "tcp in",
+        "z": "c040b3e1960bc41d",
+        "name": "",
+        "server": "server",
+        "host": "",
+        "port": "60003",
+        "datamode": "stream",
+        "datatype": "utf8",
+        "newline": "",
+        "topic": "",
+        "trim": false,
+        "base64": false,
+        "tls": "",
+        "x": 140,
+        "y": 340,
+        "wires": [
+            [
+                "2e0fbfb786e75a45"
+            ]
+        ]
+    },
+    {
+        "id": "2e0fbfb786e75a45",
+        "type": "function",
+        "z": "c040b3e1960bc41d",
+        "name": "Variable Assignment",
+        "func": "var loca = flow.get(\"Location\") || \"\";\nvar thre = flow.get(\"threatLevel\") || \"\";\nvar nodei = flow.get(\"NodeID\") || \"\";\nvar weap = flow.get(\"Weapon\") || \"\";\nvar incr = flow.get(\"increment\") || 1;\n\nvar payload = msg.payload.toString().trim();  // Ensure payload is string and trimmed\n\n// Function to parse the payload\nfunction parsePayload(payload) {\n    var parts = payload.split(\"\\n\");  // Split by newline if present\n\n    parts.forEach(function(part) {\n        part = part.trim();  // Clean each part of the payload\n\n        if (/^\\d+$/.test(part)) {\n            // The part contains only an integer (NodeID)\n            nodei = part;\n        } else if (part.includes('-')) {\n            // The part contains a comma (Location)\n            loca = part;\n        } else if (part.includes('.')) {\n            // The part contains a period (Threat Level)\n            thre = part;\n        } else if (/^[a-zA-Z\\s]+$/.test(part)) {\n            // The part contains only alphabetic characters (Weapon)\n            weap = part;\n        }\n    });\n}\n\n// Handle different types of payloads based on input\nif (Array.isArray(msg.payload)) {\n    // If the payload is an array, process each element\n    msg.payload.forEach(function(item) {\n        parsePayload(item);\n    });\n} else {\n    // Otherwise, process a single string payload\n    parsePayload(payload);\n}\n\n// Increment logic (optional, keeping as per your original code)\nincr = incr + 1;\nif (incr > 4) {\n    incr = 1;\n}\n\n// Store the values in flow context\nflow.set(\"Location\", loca);\nflow.set(\"threatLevel\", thre);\nflow.set(\"NodeID\", nodei);\nflow.set(\"Weapon\", weap);\nflow.set(\"increment\", incr);\n\n// Set the message payload to return the current state of the variables\n// msg.payload = loca + \" \" + thre + \" \" + nodei + \" \" + weap + \" \";\nmsg.payload = [loca,thre,nodei,weap+\",\"];\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 160,
+        "y": 400,
+        "wires": [
+            [
+                "cc159898ef32d0d9"
+            ]
+        ]
+    },
+    {
+        "id": "ef08b7aab945baf8",
+        "type": "csv",
+        "z": "c040b3e1960bc41d",
+        "name": "",
+        "sep": ",",
+        "hdrin": "",
+        "hdrout": "none",
+        "multi": "one",
+        "ret": "\\r\\n",
+        "temp": "Timestamp,Node ID,Threat Severity,Weapon,Location",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": "",
+        "include_null_values": "",
+        "x": 730,
+        "y": 400,
+        "wires": [
+            [
+                "e6dcaa578dd9368b"
+            ]
+        ]
+    },
+    {
+        "id": "cc159898ef32d0d9",
+        "type": "json",
+        "z": "c040b3e1960bc41d",
+        "name": "Convert payload to JSON",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 430,
+        "y": 340,
+        "wires": [
+            [
+                "39d8852cd44c8a90"
+            ]
+        ]
+    },
+    {
+        "id": "39d8852cd44c8a90",
+        "type": "function",
+        "z": "c040b3e1960bc41d",
+        "name": "Refine Payload",
+        "func": "// Step 1: Parse the input string to convert it into an array\n// Example: msg.payload = '[\"LNMIIT-Jaipur\",\"0.8623568\",\"1\",\"rifle\"]';\nvar varName = JSON.parse(msg.payload); \n\n// Step 2: Check if the parsing worked and if it's an array of the expected length\nif (!Array.isArray(varName) || varName.length !== 4) {\n    node.error('Invalid input format');\n    return null;\n}\nvar prevThreat=flow.get(\"PreviousThreat\");\nvar newThreat = varName[1];\nif(newThreat == prevThreat){\n    node.log('Data not sent because data is same');\n    return null;\n} \n// Step 3: Extract individual values\nvar location = varName[0];        // \"LNMIIT-Jaipur\"\nvar threatSeverity = varName[1];  // \"0.8623568\"\nvar nodeId = varName[2];          // \"1\"\nvar weapon = varName[3].replace(/,$/, '');          // \"rifle\"\n\n// Step 4: Create a timestamp\nvar timestamp = new Date().toISOString(); // ISO 8601 format (e.g., \"2024-10-22T08:00:00.000Z\")\n\n// Step 5: Create an object (dictionary) with key-value pairs in the desired order\nvar m = {\n    'Timestamp': timestamp,\n    'Node ID': nodeId,\n    'Threat Severity': threatSeverity,\n    'Weapon': weapon,\n    'Location': location\n};\nflow.set(\"PreviousThreat\", newThreat);\n// Step 6: Return the new object as the payload\nreturn { payload: m };\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 340,
+        "wires": [
+            [
+                "ef08b7aab945baf8"
+            ]
+        ]
+    },
+    {
+        "id": "e6dcaa578dd9368b",
+        "type": "file",
+        "z": "c040b3e1960bc41d",
+        "name": "Write to CSV",
+        "filename": "C:\\\\Users\\\\karti\\\\Desktop\\\\Circuit-digest\\\\data.csv",
+        "filenameType": "str",
+        "appendNewline": false,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 750,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "97727a6590d6ccd6",
+        "type": "ui_group",
+        "name": "Details",
+        "tab": "da9b8f92b4a4757b",
+        "order": 2,
+        "disp": true,
+        "width": 9,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "da9b8f92b4a4757b",
+        "type": "ui_tab",
+        "name": "Weapon-Image",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    }
+]
