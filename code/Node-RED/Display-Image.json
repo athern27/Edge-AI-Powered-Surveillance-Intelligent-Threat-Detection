@@ -1,0 +1,179 @@
+[
+    {
+        "id": "d23861258a0dbbe8",
+        "type": "tab",
+        "label": "Display Image",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "b9d7d6aff0016631",
+        "type": "inject",
+        "z": "d23861258a0dbbe8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "0.1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 270,
+        "y": 180,
+        "wires": [
+            [
+                "2e1daccf2a7b3d0f",
+                "2e26b84c0ce17312"
+            ]
+        ]
+    },
+    {
+        "id": "d2d1450deaa588f4",
+        "type": "file",
+        "z": "d23861258a0dbbe8",
+        "name": "",
+        "filename": "./example.py",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 710,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2e1daccf2a7b3d0f",
+        "type": "template",
+        "z": "d23861258a0dbbe8",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "python",
+        "syntax": "mustache",
+        "template": "\n\nimport os\nimport re\nfrom datetime import datetime\n\ndef find_latest_image(image_dir):\n    # Regular expression to extract the timestamp from filenames like 'image_YYYYMMDD_HHMMSS.jpg'\n    image_pattern = re.compile(r'image_(\\d{8})_(\\d{6})\\.jpg')\n\n    # Get list of all files in the directory\n    image_files = os.listdir(image_dir)\n\n    # Initialize variables to keep track of the latest image\n    latest_image_time = None\n    latest_image_path = None\n\n    # Iterate over files and check if they match the image pattern\n    for file in image_files:\n        match = image_pattern.match(file)\n        if match:\n            # Extract the date and time from the filename\n            date_str = match.group(1)\n            time_str = match.group(2)\n            # Combine date and time into a single datetime object\n            timestamp = datetime.strptime(f\"{date_str}_{time_str}\", \"%Y%m%d_%H%M%S\")\n            \n            # Check if this image is the latest one\n            if latest_image_time is None or timestamp > latest_image_time:\n                latest_image_time = timestamp\n                latest_image_path = os.path.join(image_dir, file)\n\n    return latest_image_path\n\ndef main():\n    # Directory where images are stored (using double backslashes)\n    image_dir = \"C:\\\\Users\\\\karti\\\\Desktop\\\\Circuit-digest\\\\Images\"\n\n    # Find the latest image\n    latest_image_path = find_latest_image(image_dir)\n\n    # Output the absolute path of the latest image\n    if latest_image_path:\n        print(latest_image_path.replace(\"\\\\\", \"\\\\\"))  # Optional, as the output already contains double backslashes\n\nif __name__ == \"__main__\":\n    main()\n\n",
+        "output": "str",
+        "x": 540,
+        "y": 180,
+        "wires": [
+            [
+                "d2d1450deaa588f4"
+            ]
+        ]
+    },
+    {
+        "id": "2e26b84c0ce17312",
+        "type": "exec",
+        "z": "d23861258a0dbbe8",
+        "command": "python -u ./example.py",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 440,
+        "y": 280,
+        "wires": [
+            [
+                "835336f5.6ce7e8"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "95291454.e1da48",
+        "type": "ui_template",
+        "z": "d23861258a0dbbe8",
+        "group": "564eec2e3ba0fc87",
+        "name": "html image in ui_template",
+        "order": 1,
+        "width": "9",
+        "height": "9",
+        "format": "<img ng-src=\"{{msg.payload}}\"/>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "className": "",
+        "x": 710,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b8f8e93.e40a518",
+        "type": "function",
+        "z": "d23861258a0dbbe8",
+        "name": "jpg encode buffer",
+        "func": "var getImageResult = msg.payload;\nvar b64encoded = getImageResult.toString('base64');\nmsg.payload = \"data:image/jpg;base64,\" + b64encoded;\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 690,
+        "y": 340,
+        "wires": [
+            [
+                "95291454.e1da48"
+            ]
+        ]
+    },
+    {
+        "id": "835336f5.6ce7e8",
+        "type": "file in",
+        "z": "d23861258a0dbbe8",
+        "name": "Image1",
+        "filename": "payload",
+        "filenameType": "msg",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 700,
+        "y": 260,
+        "wires": [
+            [
+                "b8f8e93.e40a518"
+            ]
+        ]
+    },
+    {
+        "id": "564eec2e3ba0fc87",
+        "type": "ui_group",
+        "name": "Weapon Detected",
+        "tab": "da9b8f92b4a4757b",
+        "order": 1,
+        "disp": true,
+        "width": "9",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "da9b8f92b4a4757b",
+        "type": "ui_tab",
+        "name": "Weapon-Image",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    }
+]
