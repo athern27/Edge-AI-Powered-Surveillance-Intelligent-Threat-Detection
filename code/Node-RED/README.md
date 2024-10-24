@@ -7,5 +7,5 @@
 5. node-red-contrib-pythonshell 1.5.4
 6. node-red-dashboard 3.6.2
 
-# How to Install them
+## How to Install them
 Node-RED Server --> Top-Right-3-Lines --> Manage Palatte --> Install
