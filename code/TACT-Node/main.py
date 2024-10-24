@@ -28,12 +28,6 @@ LORA_SPI_FREQ_KHZ = const(10000)
 def sendLora(lora, threat, weapon):
     counter = 0
     print("LoRa Sender")
-    #payload = ['Node Id {}'.format(NodeID),
-        #'Threat Level {}'.format(threat),
-        #'Weapon Type {}'.format(weapon),
-        #'Latitude {}'.format("Latitude"),
-        #'Longitude {}'.format("Longitude")
-    #]
     payload = ['{}'.format(NodeID),
         '{}'.format(threat),
         '{}'.format(weapon),
@@ -145,7 +139,7 @@ def send_image_over_socket(img, clock):
     img = img.compress(quality=90)
     img_bytes = img.to_bytes()
     print("send len: ", len(img_bytes))
-    packet_prescalar=2048
+    packet_prescalar=1024
     try:
         block = int(len(img_bytes)/packet_prescalar)
         for i in range(block):
