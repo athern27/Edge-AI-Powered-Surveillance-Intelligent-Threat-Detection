@@ -1,0 +1,51 @@
+[
+    {
+        "id": "4fa29471746f79d9",
+        "type": "tab",
+        "label": "Style Maixduino",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "303e86deb08489c5",
+        "type": "ui_template",
+        "z": "4fa29471746f79d9",
+        "group": "564eec2e3ba0fc87",
+        "name": "Syle",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "format": "<style>\n    .md-toolbar-tools {\n        display: flex;\n        justify-content: center;\n    }\n</style>\n<style>\n    /* Styling for all the groups */\n    ui-card-panel {\n        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;\n        border-radius: 5px;\n        margin: auto;\n        justify-content: center;\n        text-align: center;\n    }\n\n    /* Styling for all the Elements in the Groups */\n    ui-card-panel * {\n        border-radius: 2.5px;\n        justify-content: center;\n        text-align: center;\n    }\n\n    /* Styling of the Group Title */\n    .nr-dashboard-cardtitle {\n        font-weight: bold !important;\n        text-align: center;\n    }\n\n    .title {\n        font-family: Verdana, sans-serif !important;\n        font-size: 28px !important;\n        color: #e7463d !important;\n        text-align: center;\n        font-weight: bold !important;\n    }\n\n    /* Styling the 'Weapon Detected' and 'Details' sections */\n    .section-title {\n        font-family: Verdana, sans-serif !important;\n        font-size: 24px !important;\n        color: #333; /* You can adjust this color if needed */\n        text-align: center;\n        font-weight: bold !important;\n    }\n</style>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 450,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "564eec2e3ba0fc87",
+        "type": "ui_group",
+        "name": "Weapon Detected",
+        "tab": "da9b8f92b4a4757b",
+        "order": 1,
+        "disp": true,
+        "width": "9",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "da9b8f92b4a4757b",
+        "type": "ui_tab",
+        "name": "Weapon-Image",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    }
+]
