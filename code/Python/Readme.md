@@ -17,4 +17,7 @@
 ```
 
 6. To do this Run CreateDataset file.
+7. Download new dataset.
+8. follow steps on https://github.com/sipeed/maix_train
+      
 
