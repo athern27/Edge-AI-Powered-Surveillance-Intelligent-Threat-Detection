@@ -16,5 +16,5 @@
 └───labels.txt --It contains labels
 ```
 
-6. To do this Run CreateDataset file
+6. To do this Run CreateDataset file.
 
