@@ -3,7 +3,8 @@
 2. Auto-Annotate it.
 3. Download as Pascal Voc.
 4. Pascal VOC gives you in this format
-'''bash
+   
+``` bash
 ├───train
 └───valid
-'''
+```
