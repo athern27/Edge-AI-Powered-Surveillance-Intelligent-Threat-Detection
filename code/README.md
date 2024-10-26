@@ -6,4 +6,7 @@ First Change the IP address using ipconfig on your PC and chnage in main.py. Cop
 If while sending images there comes exception. Then try to tweak with Payload-Prescalar.
 
 ## Mobile Slave Node
-Copy and Paste Code in Arduino IDE sketch and simpy select board and uplaod.
+Copy and Paste Code in Arduino IDE sketch and simpy select board and upload.
+
+## Python
+For local dataset Creation
