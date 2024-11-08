@@ -5,7 +5,7 @@ We believe that AI and Edge-computing operations on microcontrollers itself pres
 **Hardware Used-**
 
 1) Sipeed Maixduino RISC V microcontroller board  x  1   (DigiKey Part No. 1597-110110044-ND)
-2) Arduino Uno  x  1     (DigiKey Part No. 1050-1024-ND)
+2) NodeMCU(ESP8266) x 1 (Robu  SKU: 62160) 
 3) LoRa module SX-1278  x  2
 4) Battery  x  1
 5) microSDXC Card 128GB  x  1
