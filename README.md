@@ -19,3 +19,4 @@ We believe that AI and Edge-computing operations on microcontrollers itself pres
 2) Maixpy IDE
 3) Node-Red
    
+![image](https://github.com/user-attachments/assets/c9106f43-fb05-4e2f-a770-215ad1f0ce16)
