@@ -3,7 +3,7 @@ Our project draws inspiration from regular terrorist/criminal activities observe
 We believe that AI and Edge-computing operations on microcontrollers itself present as a viable solution to this widely encountered issue worldwide.
 
 [Circuit Digest Article Link](https://circuitdigest.com/microcontroller-projects/edge-ai-powered-surveillance-intelligent-threat-detection)
-
+[Demonstartion Video Link](https://www.youtube.com/watch?v=jS4blB46gOI)
 **Hardware Used-**
 
 1) Sipeed Maixduino RISC V microcontroller board  x  1   (DigiKey Part No. 1597-110110044-ND)
